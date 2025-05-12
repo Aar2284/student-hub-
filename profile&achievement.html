@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile & Achievements - StudentHub</title>
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- swiper (if needed) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <!-- custom css -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* PROFILE & ACHIEVEMENTS PAGE SPECIFIC STYLES */
+        .profile-header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+        .profile-header img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #4a90e2;
+        }
+        .profile-header h2 {
+            margin: 1rem 0 0.5rem;
+            font-size: 1.8rem;
+            color: #333;
+        }
+        .profile-header p {
+            color: #666;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+        }
+        .stat-box {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            margin: 0 0.5rem;
+            background: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .stat-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #4a90e2;
+        }
+        .achievements, .activity-feed {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .achievements h3, .activity-feed h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .badge {
+            flex: 0 0 120px;
+            text-align: center;
+        }
+        .badge img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 0.5rem;
+        }
+        .badge span {
+            display: block;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .activity-item {
+            background: #fff;
+            padding: 1rem;
+            border-left: 4px solid #4a90e2;
+            margin-bottom: 1rem;
+            border-radius: 0.3rem;
+        }
+        .back-home {
+            display: inline-block;
+            margin: 1rem;
+            color: #4a90e2;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Reuse header from index.html -->
+    <header class="header">
+        <a href="index.html" class="logo"><i class="fa-solid fa-users-line"></i>StudentHub</a>
+        <nav class="navbar">
+            <a href="index.html#home">home</a>
+            <a href="tracker.html">tracker</a>
+            <a href="resources.html">resources</a>
+            <a href="pools.html">pools</a>
+            <a href="top.html">tot</a>
+            <a href="blogs.html">top picks</a>
+            <a href="profile.html" class="active">profile</a>
+        </nav>
+        <div class="icons">
+            <div class="fas fa-bars" id="menu"></div>
+            <div class="fas fa-user" id="login-btn"></div>
+        </div>
+    </header>
+
+    <!-- PROFILE HEADER -->
+    <section class="profile-header">
+        <img src="images/avatar.png" alt="User Avatar">
+        <h2>Jane Doe</h2>
+        <p>Computer Science Student | Avid Learner</p>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-container">
+        <div class="stat-box">
+            <h3 id="hoursStudied">0</h3>
+            <p>Total Hours Studied</p>
+        </div>
+        <div class="stat-box">
+            <h3 id="resourcesShared">0</h3>
+            <p>Resources Shared</p>
+        </div>
+        <div class="stat-box">
+            <h3 id="badgesEarned">0</h3>
+            <p>Badges Earned</p>
+        </div>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <section class="achievements">
+        <h3>Your Badges</h3>
+        <div class="badges" id="badgeContainer">
+            <!-- badges injected by JS -->
+        </div>
+    </section>
+
+    <!-- ACTIVITY FEED -->
+    <section class="activity-feed">
+        <h3>Recent Activity</h3>
+        <div id="activityContainer">
+            <!-- activity items injected by JS -->
+        </div>
+    </section>
+
+    <a href="index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+
+    <!-- JS -->
+    <script>
+        // Sample data -- replace with real data or API calls
+        const stats = { hours: 120, resources: 8, badges: 5 };
+        const badges = [
+            { icon: 'fa-book', name: 'Resource Contributor' },
+            { icon: 'fa-hourglass-start', name: 'Marathon Reader' },
+            { icon: 'fa-star', name: 'Top Performer' },
+            { icon: 'fa-calendar-check', name: 'Study Streak' },
+            { icon: 'fa-trophy', name: 'Champion' }
+        ];
+        const activities = [
+            'Completed 3-hour study session on Algorithms',
+            'Shared "Linear Algebra Cheat Sheet"',
+            'Earned the "Study Streak" badge for 7 days',
+            'Reached 100 total study hours',
+            'Received "Top Performer" badge'
+        ];
+
+        // Populate stats
+        document.getElementById('hoursStudied').textContent = stats.hours;
+        document.getElementById('resourcesShared').textContent = stats.resources;
+        document.getElementById('badgesEarned').textContent = stats.badges;
+
+        // Populate badges
+        const badgeContainer = document.getElementById('badgeContainer');
+        badges.forEach(b => {
+            const div = document.createElement('div');
+            div.className = 'badge';
+            div.innerHTML = `<i class="fa-solid ${b.icon}" style="font-size:48px;color:#4a90e2"></i><span>${b.name}</span>`;
+            badgeContainer.appendChild(div);
+        });
+
+        // Populate activity feed
+        const activityContainer = document.getElementById('activityContainer');
+        activities.forEach(a => {
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.textContent = a;
+            activityContainer.appendChild(item);
+        });
+    </script>
+</body>
+</html>
